@@ -49,32 +49,67 @@ public class ParseFile {
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList nList = doc.getElementsByTagName("drug");
             System.out.println("----------------------------");
-
+            drugDictionary = new HashMap<>();
+            drugList = new ArrayList<>();
+            XMLDrug drug = new XMLDrug();
             for (int temp = 0; temp < nList.getLength(); temp++) {
-                XMLDrug drug = new XMLDrug();
+
                 Node nNode = nList.item(temp);
                 System.out.println("\nCurrent Element :" + nNode.getNodeName());
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    NodeList nodeList = doc.getElementsByTagName("drug");
+                    Element eElement = (Element) nNode; //eElement is always a drug
+                    XMLDrug.DrugInt tempIntDrug = new XMLDrug.DrugInt();
                     System.out.println("drugbank-id"
                             + eElement.getElementsByTagName("drugbank-id").item(0).getTextContent());
+                    //initializing the drug id value
+                    drug.setId(eElement.getElementsByTagName("drugbank-id").item(0).getTextContent());
+                    tempIntDrug.setID(eElement.getElementsByTagName("drugbank-id").item(0).getTextContent());
+
                     System.out.println("drug name:"
                             + eElement.getElementsByTagName("name").item(0).getTextContent());
+
+                    //initializing the drug name value
+                    drug.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
+                    drug.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
+
                     System.out.println("drug description:"
                             + eElement.getElementsByTagName("description").item(0).getTextContent());
+                    drug.setDescription(eElement.getElementsByTagName("description").item(0).getTextContent());
+                    tempIntDrug.setInteraction(eElement.getElementsByTagName("description").item(0).getTextContent());
+
                     System.out.println("indication"
                             + eElement.getElementsByTagName("indication").item(0).getTextContent());
+                    //initialize the drug indication
+                    drug.setIndication(eElement.getElementsByTagName("indication").item(0).getTextContent());
 
-                    System.out.println("drug-interactions"
-                            + eElement.getElementsByTagName("drug-interactions").item(0).getTextContent());
+                        System.out.println("drug-interactions"
+                                + eElement.getElementsByTagName("drug-interactions").item(0).getTextContent());
+
+                        if(eElement.getTagName().equals("drug-interactions")){
+                            createList(tempIntDrug);
+                            drugList.add(tempIntDrug);
+                        }
+
 
                 }
+                drug.setDrugInteractionList(drugList);
+                drugDictionary.put(drug.getId(),drug);
+
+                System.out.println(drugDictionary.size());
+                System.out.println(drugDictionary.containsKey("DB00009"));
+                System.out.println(drugList.size());
+
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    void createList(XMLDrug.DrugInt temp){
+        drugList.add(temp);
+
     }
 
 }
