@@ -40,7 +40,7 @@ public class ParseFile {
 
     public ParseFile() throws ParserConfigurationException {
         try {
-            File inputFile = new File("/Users/oliviafeldman/Desktop/XMLParse/src/SampleDrugDatabase copy.xml");
+            File inputFile = new File("/Users/oliviafeldman/XMLParse/src/SampleDrugDatabase.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
@@ -51,7 +51,7 @@ public class ParseFile {
             System.out.println("----------------------------");
             drugDictionary = new HashMap<>();
 
-            boolean find = false;
+
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 drugList = new ArrayList<>();
                 XMLDrug drug = new XMLDrug();
@@ -87,13 +87,13 @@ public class ParseFile {
                     //initialize the drug indication
                     drug.setIndication(eElement.getElementsByTagName("indication").item(0).getTextContent());
 
-
                       NodeList newNode = eElement.getElementsByTagName("drug-interaction");
                       for(int j = 0; j < newNode.getLength();j++){
                           Node nNode1 = newNode.item(j);
                           XMLDrug.DrugInt tempIntDrug = new XMLDrug.DrugInt();
                           if(nNode1.getNodeType() ==Node.ELEMENT_NODE){
-                              Element eElement1 = (Element) nNode1; //eElement is always a drug
+                              Element eElement1 = (Element) nNode1; //eElement1 is always a drug-interaction
+
                               tempIntDrug.setID(eElement.getElementsByTagName("drugbank-id").item(0).getTextContent());
                               System.out.println(eElement1.getElementsByTagName("drugbank-id").item(0).getTextContent());
                               tempIntDrug.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
